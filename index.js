@@ -1,6 +1,7 @@
 import express from 'express';
 import crypto from 'crypto';
 import 'dotenv/config'
+import path from 'path';
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.post('/checkout', async (req, res) => {
         order_id: crypto.randomBytes(12).toString('hex'),
         url_success: '', //ruta del proyecto en caso de que el pago se haya hecho con éxito,
         url_return: '', //volver al sitio web inicial
-        callback_url: '' // para la utilización de webhooks
+        url_callback: '' // para la utilización de webhooks
     }
 
     const sign = crypto
@@ -43,7 +44,7 @@ app.post('/checkout', async (req, res) => {
 
     console.log(data);
 
-    return res.json(data);
+    return res.json(data.result.url);
 
 });
 
@@ -71,6 +72,8 @@ app.post('webhook', async (req, res) => {
     return res.sendStatus(200);
 
 });
+
+app.use(express.static(path.resolve('./public')))
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");

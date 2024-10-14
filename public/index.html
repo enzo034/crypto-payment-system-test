@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test cryptomus</title>
+</head>
+
+<body>
+
+    <h1>Tienda con crypto</h1>
+
+    <button id="pay-button">Pagar</button>
+
+    <script>
+
+        const button = document.querySelector('pay-button');
+
+        button.addEventListener('click', async () => {
+
+            const res = await fetch('/checkout', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const data = await res.json();
+            console.log(data);
+
+            window.location.href = data;
+
+        });
+
+    </script>
+
+</body>
+
+</html>
